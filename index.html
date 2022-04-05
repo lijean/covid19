@@ -43,6 +43,13 @@
                     </div>
                 </div>
 
+                <div class="py-5">
+                    <h3 class="fs-3 text-center mt-3 mb-3">每日疫情統計圖 ( 近 {{ chartNum }} 日 )</h3>
+                    <div class="py-5 px-4 border border-4 border-secondary rounded-3 bg-secondary bg-opacity-10 shadow-hover">
+                        <canvas id="dateChart"></canvas>
+                    </div>
+                </div>
+
                 <div class="row py-5">
                     <div class="col-xl-4 col-12 my-4">
                         <h3 class="fs-5 mb-0 d-inline-block">累計確診排行</h3>
@@ -93,13 +100,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="py-5">
-                    <h3 class="fs-4 text-center mb-3">每日疫情統計圖 ( 近 {{ chartNum }} 日 )</h3>
-                    <div class="py-5 px-4 border border-4 border-secondary rounded-3 bg-secondary bg-opacity-10 shadow-hover">
-                        <canvas id="dateChart"></canvas>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -144,7 +144,8 @@
                     latestDate: '',
                     maxDate: '',
                     minDate: '',
-                    chartNum: 10
+                    chartNum: 10,
+                    dateChart: undefined
                 },
                 computed: {
                     dateList(){
@@ -305,17 +306,17 @@
                                 }
                             ]
                         }
-                    
+
                         const config = {
                             type: 'line',
                             data: data,
                             options: {}
                         }
                         
-                        const dateChart = new Chart(
-                            document.getElementById('dateChart'),
-                            config
-                        )
+                        this.dateChart = new Chart('dateChart',config)
+                    },
+                    updateChart(){
+                        if(this.dateChart) this.dateChart.destroy()
                     }
                 },
                 mounted() {
@@ -325,6 +326,18 @@
                 updated() {
                     // 統計圖表
                     this.setChart()
+                },
+                watch: {
+                    latestDate: {
+                        handler(val,oldval) {
+                            this.updateChart()
+                        }
+                    },
+                    chartNum: {
+                        handler(val,oldval) { 
+                            this.updateChart()
+                        }
+                    }
                 }
             })
         </script>
