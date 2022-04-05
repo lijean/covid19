@@ -33,43 +33,13 @@
 
                 <div class="row mt-4 bg-border-full">
                     <div class="col-xl-4 col-12 mb-3">
-                        <div class="card card-hover border border-4 border-primary rounded-3 shadow-lg bg-dark bg-gradient1">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col text-center">
-                                        <div class="card-title fs-5 mb-2">累計確診(例)</div>
-                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">{{ toCurrency(totalConfirmed) }}</div>
-                                        <p class="card-text fs-6 text-muted">{{ latestDate }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <item-component title="累計確診(例)" :number="toCurrency(totalConfirmed)" :latest-date="latestDate"></item-component>
                     </div>
                     <div class="col-xl-4 col-12 mb-3">
-                        <div class="card card-hover border border-4 border-primary rounded-3 shadow-lg bg-dark bg-gradient1">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col text-center">
-                                        <div class="card-title fs-5 mb-2">當日新增確診(例)</div>
-                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">{{ toCurrency(todayIncrease) }}</div>
-                                        <p class="card-text fs-6 text-muted">{{ latestDate }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <item-component title="當日新增確診(例)" :number="toCurrency(todayIncrease)" :latest-date="latestDate"></item-component>
                     </div>
                     <div class="col-xl-4 col-12 mb-3">
-                        <div class="card card-hover border border-4 border-primary rounded-3 shadow-lg bg-dark bg-gradient1">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col text-center">
-                                        <div class="card-title fs-5 mb-2">當日境外移入(例)</div>
-                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">{{ toCurrency(todayOverseas) }}</div>
-                                        <p class="card-text fs-6 text-muted">{{ latestDate }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <item-component title="當日境外移入(例)" :number="toCurrency(todayOverseas)" :latest-date="latestDate"></item-component>
                     </div>
                 </div>
 
@@ -155,6 +125,35 @@
         
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
         <script>
+            Vue.component('item-component',{
+                props: {
+                    title: {
+                        type: String,
+                        required: true
+                    },
+                    number: {
+                        type: String,
+                        required: true
+                    },
+                    latestDate: {
+                        type: String,
+                        required: true
+                    },
+                },
+                template: `
+                    <div class="card card-hover border border-4 border-primary rounded-3 shadow-lg bg-dark">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col text-center">
+                                    <div class="card-title fs-5 mb-2">{{ title }}</div>
+                                    <div class="card-subtitle fs-1 fw-bold text-danger mb-2">{{ number }}</div>
+                                    <p class="card-text fs-6 text-muted">{{ latestDate }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+            })
             new Vue({
                 el: '#app',
                 data: {
