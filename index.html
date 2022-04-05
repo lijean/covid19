@@ -38,8 +38,8 @@
                                 <div class="row">
                                     <div class="col text-center">
                                         <div class="card-title fs-5 mb-2">累計確診(例)</div>
-                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">20,000</div>
-                                        <p class="card-text fs-6 text-muted">2022/01/05</p>
+                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">{{ toCurrency(totalConfirmed) }}</div>
+                                        <p class="card-text fs-6 text-muted">{{ latestDate }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -51,8 +51,8 @@
                                 <div class="row">
                                     <div class="col text-center">
                                         <div class="card-title fs-5 mb-2">當日新增確診(例)</div>
-                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">100</div>
-                                        <p class="card-text fs-6 text-muted">2022/01/05</p>
+                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">{{ toCurrency(todayIncrease) }}</div>
+                                        <p class="card-text fs-6 text-muted">{{ latestDate }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -64,8 +64,8 @@
                                 <div class="row">
                                     <div class="col text-center">
                                         <div class="card-title fs-5 mb-2">當日境外移入(例)</div>
-                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">100</div>
-                                        <p class="card-text fs-6 text-muted">2022/01/05</p>
+                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">{{ toCurrency(todayOverseas) }}</div>
+                                        <p class="card-text fs-6 text-muted">{{ latestDate }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -184,6 +184,19 @@
                         })
                         
                         return obj
+                    },
+                    totalConfirmed(){
+                        return this.dataList.filter(({ date }) => date <= this.latestDate).length
+                    },
+                    todayIncrease(){
+                        const obj = this.dateList.map[this.latestDate]
+                        if(obj) return obj.sort.length
+                        else return 0
+                    },
+                    todayOverseas(){
+                        const obj = this.dateList.map[this.latestDate]
+                        if(obj) return obj.sort.filter(item => obj.map[item].overseas).length
+                        else return 0
                     }
                 },
                 methods: {                    
@@ -222,6 +235,12 @@
                         const dateArr = this.dateList.sort
                         let idx = (dateArr.indexOf(this.latestDate) + change + dateArr.length) % dateArr.length
                         this.latestDate = dateArr[idx]
+                    },
+                    toCurrency(value){
+                        // 轉換數字成含千分位的文字
+                        let parts = value.toString().split('.');
+                        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        return parts.join('.');
                     }
                 },
                 mounted() {
