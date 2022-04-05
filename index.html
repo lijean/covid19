@@ -56,44 +56,27 @@
 
                 <div class="row py-5">
                     <div class="col-xl-4 col-12 my-4">
-                        <div class="card shadow-lg">
-                            <div class="card-header">
-                                <h3 class="fs-5 mb-0 d-inline-block">累計確診排行</h3>
-                                <span class="fs-6 text-muted d-inline-block ms-2">2022/04/05</span>
-                            </div>
-                            <div class="card-body">
-                                <div class="list-group mb-3">
-                                    <div class="list-group-item d-flex align-items-center border-0 rounded bg-primary">
-                                        <div class="me-3">
-                                            <div class="icon icon-shape rounded-circle shadow-lg bg-primary bg-gradient text-white">1</div>
-                                        </div>
-                                        <div class="flex-fill">
-                                            <div class="card-title fs-6 mb-0 text-white">台中市</div>
-                                            <p class="card-text fs-6 text-white opacity-75">確診人數 0</p>
-                                        </div>
+                        <h3 class="fs-5 mb-0 d-inline-block">累計確診排行</h3>
+                        <span class="fs-6 text-muted d-inline-block ms-2">{{ latestDate }}</span>                        
+                        <div class="list-group rounded-3 py-5 px-4 mt-3 bg-secondary bg-opacity-10">
+                            <div v-for="city,index of cityOrderList" 
+                                :key="city.id" 
+                                class="list-group-item d-flex align-items-center border-0 rounded shadow-hover" 
+                                :class="[index===0 ? 'bg-danger' : 
+                                        index===1 ? 'bg-primary' : 
+                                        index===2 ? 'bg-info' : 'bg-secondary',
+                                        index!==0 ? 'mt-3' : '']">
+                                <div class="me-3">
+                                    <div class="icon icon-shape rounded-circle shadow-lg bg-gradient text-white" 
+                                        :class="[index===0 ? 'bg-danger' : 
+                                                index===1 ? 'bg-primary' : 
+                                                index===2 ? 'bg-info' : 'bg-secondary']">
+                                    {{ index+1 }}
                                     </div>
                                 </div>
-                                <div class="list-group mb-3">
-                                    <div class="list-group-item d-flex align-items-center border-0 rounded bg-primary">
-                                        <div class="me-3">
-                                            <div class="icon icon-shape rounded-circle shadow-lg bg-primary bg-gradient text-white">2</div>
-                                        </div>
-                                        <div class="flex-fill">
-                                            <div class="card-title fs-6 mb-0 text-white">台中市</div>
-                                            <p class="card-text fs-6 text-white opacity-75">確診人數 0</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-group mb-3">
-                                    <div class="list-group-item d-flex align-items-center border-0 rounded bg-primary">
-                                        <div class="me-3">
-                                            <div class="icon icon-shape rounded-circle shadow-lg bg-primary bg-gradient text-white">3</div>
-                                        </div>
-                                        <div class="flex-fill">
-                                            <div class="card-title fs-6 mb-0 text-white">台中市</div>
-                                            <p class="card-text fs-6 text-white opacity-75">確診人數 0</p>
-                                        </div>
-                                    </div>
+                                <div class="flex-fill">
+                                    <div class="card-title fs-6 mb-0 text-white">{{ city.title }}</div>
+                                    <p class="card-text fs-6 text-white opacity-75">確診人數 {{ toCurrency(city.num) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -227,6 +210,13 @@
                                                 num: arr.length
                                             }
                                         })
+                        return filterList
+                    },
+                    cityOrderList(){
+                        const filterList = this.cityConfirmedList
+                                        .filter((item,idx) => idx !== 0)
+                                        .sort((a,b) => b.num - a.num)
+                                        .slice(0, 4)
                         return filterList
                     }
                 },
