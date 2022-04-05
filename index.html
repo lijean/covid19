@@ -99,22 +99,24 @@
                         </div>
                     </div>
                     <div class="col-xl-8 col-12 my-4">
-                        <div class="card shadow-lg">
-                            <div class="card-header">
-                                <h3 class="fs-5 mb-0">台灣縣市疫情地圖</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center py-5 px-4">
-                                    <div class="map d-inline-block">
-                                        <img src="img/map.png" alt="台灣地圖" class="w-auto mw-100">
-                                        <ul class="mapTargetList">
-                                            <li class="text-nowrap fs-6">
-                                                台中市
-                                                <span class="d-block rounded-3 text-white">0</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                        <h3 class="fs-5 mb-0 d-inline-block">台灣縣市疫情地圖</h3>
+                        <span class="fs-6 text-muted d-inline-block ms-2">{{ latestDate }}</span>
+                        <div class="text-center rounded-3 py-5 px-4 mt-3 bg-secondary bg-opacity-10">
+                            <div class="map d-inline-block">
+                                <img src="img/map.png" alt="台灣地圖" class="w-auto mw-100">
+                                <ul class="mapTargetList">
+                                    <li v-for="city,index of cityConfirmedList" 
+                                        :key="city.title" 
+                                        class="text-nowrap fs-6" 
+                                        :class="'mapTarget'+index">
+                                        {{ city.title }}
+                                        <span class="d-block rounded-3 text-white" 
+                                            :class="[city.num>=1000 ? 'bg-danger' : 
+                                                    city.num>=100 ? 'bg-primary' : 'bg-secondary']">
+                                            {{ toCurrency(city.num) }}
+                                        </span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -196,6 +198,36 @@
                         const obj = this.dateList.map[this.latestDate]
                         if(obj) return obj.sort.filter(item => obj.map[item].overseas).length
                         else return 0
+                    },
+                    cityList(){
+                        const obj = {
+                            sort: this.taiwanList,
+                            map: {}
+                        }
+                        obj.sort.forEach(city => {
+                            obj.map[city] = {
+                                sort: [],
+                                map: {}
+                            }
+                        })
+                        this.dataList.forEach(({ id, date, city, town, gender, overseas, agegroup })=>{
+                            obj.map[city].sort.push(id)
+                            obj.map[city].map[id] = { date, town, gender, overseas, agegroup }
+                        })
+                        
+                        return obj
+                    },
+                    cityConfirmedList(){
+                        const filterList = this.cityList.sort
+                                        .map(item => {
+                                            const obj = this.cityList.map[item]
+                                            const arr = obj.sort.filter(item2 => obj.map[item2].date<=this.latestDate)
+                                            return {
+                                                title: item,
+                                                num: arr.length
+                                            }
+                                        })
+                        return filterList
                     }
                 },
                 methods: {                    
