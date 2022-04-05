@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/style.min.css">
+
+        <title>台灣疫情</title>
+    </head>
+    <body>
+        <div class="outerWrap">
+            <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary bg-gradient">
+                <div class="container">
+                    <a class="navbar-brand text-uppercase" href="javascript:;"><span class="fw-bold">Covid-19</span> 台灣疫情地圖</a>
+                    <div class="ms-auto d-flex">
+                        <button class="btn btn-secondary">←</button>
+                        <input type="date" class="form-control form-control-sm" value="2022-04-05">
+                        <button class="btn btn-secondary">→</button>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container">
+                <div class="text-center py-4">
+                    <h1 class="fs-1 fw-bold mt-5 mb-3">台灣各縣市<br>每日新增確診圖表</h1>
+                    <p class="text-muted">數據來源：<a class="text-white" href="https://www.cdc.gov.tw/" target="_blank">衛福部疾管署</a></p>
+                </div>
+
+                <div class="row mt-4 bg-border-full">
+                    <div class="col-xl-4 col-12 mb-3">
+                        <div class="card card-hover border border-4 border-primary rounded-3 shadow-lg bg-dark bg-gradient1">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="card-title fs-5 mb-2">累計確診(例)</div>
+                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">20,000</div>
+                                        <p class="card-text fs-6 text-muted">2022/01/05</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-12 mb-3">
+                        <div class="card card-hover border border-4 border-primary rounded-3 shadow-lg bg-dark bg-gradient1">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="card-title fs-5 mb-2">當日新增確診(例)</div>
+                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">100</div>
+                                        <p class="card-text fs-6 text-muted">2022/01/05</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-12 mb-3">
+                        <div class="card card-hover border border-4 border-primary rounded-3 shadow-lg bg-dark bg-gradient1">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <div class="card-title fs-5 mb-2">當日境外移入(例)</div>
+                                        <div class="card-subtitle fs-1 fw-bold text-danger mb-2">100</div>
+                                        <p class="card-text fs-6 text-muted">2022/01/05</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-5 mt-5">
+                    <div class="card shadow-lg">
+                        <div class="card-header">
+                            <h3 class="fs-2 text-center mb-3">每日疫情統計圖</h3>
+                        </div>
+                        <div class="card-body bg-white">
+                            <canvas id="dateChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row py-5">
+                    <div class="col-xl-4 col-12 my-4">
+                        <div class="card shadow-lg">
+                            <div class="card-header">
+                                <h3 class="fs-5 mb-0 d-inline-block">累計確診排行</h3>
+                                <span class="fs-6 text-muted d-inline-block ms-2">2022/04/05</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group mb-3">
+                                    <div class="list-group-item d-flex align-items-center border-0 rounded bg-primary">
+                                        <div class="me-3">
+                                            <div class="icon icon-shape rounded-circle shadow-lg bg-primary bg-gradient text-white">1</div>
+                                        </div>
+                                        <div class="flex-fill">
+                                            <div class="card-title fs-6 mb-0 text-white">台中市</div>
+                                            <p class="card-text fs-6 text-white opacity-75">確診人數 0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group mb-3">
+                                    <div class="list-group-item d-flex align-items-center border-0 rounded bg-primary">
+                                        <div class="me-3">
+                                            <div class="icon icon-shape rounded-circle shadow-lg bg-primary bg-gradient text-white">2</div>
+                                        </div>
+                                        <div class="flex-fill">
+                                            <div class="card-title fs-6 mb-0 text-white">台中市</div>
+                                            <p class="card-text fs-6 text-white opacity-75">確診人數 0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group mb-3">
+                                    <div class="list-group-item d-flex align-items-center border-0 rounded bg-primary">
+                                        <div class="me-3">
+                                            <div class="icon icon-shape rounded-circle shadow-lg bg-primary bg-gradient text-white">3</div>
+                                        </div>
+                                        <div class="flex-fill">
+                                            <div class="card-title fs-6 mb-0 text-white">台中市</div>
+                                            <p class="card-text fs-6 text-white opacity-75">確診人數 0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8 col-12 my-4">
+                        <div class="card shadow-lg">
+                            <div class="card-header">
+                                <h3 class="fs-5 mb-0">台灣縣市疫情地圖</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center py-5 px-4">
+                                    <div class="map d-inline-block">
+                                        <img src="img/map.png" alt="台灣地圖" class="w-auto mw-100">
+                                        <ul class="mapTargetList">
+                                            <li class="text-nowrap fs-6">
+                                                台中市
+                                                <span class="d-block rounded-3 text-white">0</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
+
+$bg-color: #1f2329;
+body {
+    font-family: 'Open Sans', 'Noto Sans TC', sans-serif;
+    background-color: #f5f9fc;
+    color: #f5f9fc;
+    background-color: $bg-color;
+}
+.outerWrap {
+    overflow: hidden;
+}
+nav {
+    &.sticky-top {
+        z-index: 2000;
+    }
+}
+.icon {
+    line-height: 1;
+    text-align: center;
+    &-shape {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+    }
+}
+.table-responsive {
+    max-height: 320px;
+}
+
+.card {
+    &-hover {
+        transition: box-shadow .4s;
+        &:hover {
+            box-shadow: 0 0 40px rgba(#fff,.5) !important;
+        }
+    }
+}
+.bg-border-full {
+    position: relative;
+    &::before {
+        content: '';
+        position: absolute;
+        top: calc(50% - 2px);
+        left: calc(50% - 50vw);
+        width: 100vw;
+        height: 4px;
+        // background-color: #67acd6;
+        background: linear-gradient(90deg, #67acd6 0%, #6366e0 100%);
+    }
+}
+
+.map {
+    position: relative;
+}
+[class*='mapTarget'] {
+    position: absolute;
+    z-index: 5;
+    line-height: 1.2;
+    cursor: pointer;
+    pointer-events: auto;
+    > span {
+        font-size: 0.8rem;
+        // background-color: var(--bs-orange);
+    }
+}
+.mapTarget {
+    &List {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding-left: 0;
+        list-style: none;
+        pointer-events: none;
+    }
+    &0 {
+        bottom: 5px;
+        left: 5px;
+        padding: 10px;
+        border: 1px solid var(--bs-gray-400);
+        border-radius: 3px;
+        background-color: #fff;
+    }
+    &1 {
+        top: 1%;
+        right: 14%;
+    }
+    &2 {
+        top: 9.5%;
+        right: 10%;
+    }
+    &3 {
+        top: 0;
+        right: -2%;
+    }
+    &4 {
+        top: 19.5%;
+        right: 6.5%;
+    }
+    &5 {
+        top: 5%;
+        right: 28%;
+    }
+    &6 {
+        top: 12%;
+        right: 36%;
+    }
+    &7 {
+        top: 15%;
+        right: 24%;
+    }
+    &8  {
+        top: 21.5%;
+        right: 33.5%;
+    }
+    &9 {
+        top: 29.5%;
+        right: 40%;
+    }
+    &10 {
+        top: 37%;
+        right: 51%;
+    }
+    &11 {
+        top: 40.5%;
+        right: 30%;
+    }
+    &12 {
+        top: 44.5%;
+        right: 51%;
+    }
+    &13 {
+        top: 51%;
+        right: 53%;
+    }
+    &14 {
+        top: 52%;
+        right: 39%;
+    }
+    &15 {
+        top: 60.5%;
+        right: 53%;
+    }
+    &16 {
+        top: 66%;
+        right: 40%;
+    }
+    &17 {
+        top: 78%;
+        right: 43%;
+    }
+    &18 {
+        top: 43%;
+        right: 11.5%;
+    }
+    &19 {
+        top: 69%;
+        right: 25%;
+    }
+    &20 {
+        top: 47%;
+        left: 12%;
+    }
+    &21 {
+        top: 3.5%;
+        left: 32%;
+    }
+    &22 {
+        top: 26%;
+        left: 18%;
+    }
+}
+
+@media (min-width: 960px) {
+}
