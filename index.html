@@ -13,7 +13,7 @@
         <title>台灣疫情</title>
     </head>
     <body>
-        <div class="outerWrap" id="app">
+        <div id="app">
             <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary bg-gradient">
                 <div class="container">
                     <a class="navbar-brand text-uppercase" href="javascript:;"><span class="fw-bold">Covid-19</span> 台灣疫情地圖</a>
@@ -25,77 +25,79 @@
                 </div>
             </nav>
 
-            <div class="container">
-                <div class="text-center py-4">
-                    <h1 class="fs-1 fw-bold mt-5 mb-3">台灣各縣市<br>每日新增確診圖表</h1>
-                    <p class="text-muted">數據來源：<a class="text-white" href="https://www.cdc.gov.tw/" target="_blank">衛福部疾管署</a></p>
-                </div>
+            <div class="outerWrap">
+                <div class="container">
+                    <div class="text-center py-4">
+                        <h1 class="fs-1 fw-bold mt-5 mb-3">台灣各縣市<br>每日新增確診圖表</h1>
+                        <p class="text-muted">數據來源：<a class="text-white" href="https://www.cdc.gov.tw/" target="_blank">衛福部疾管署</a></p>
+                    </div>
 
-                <div class="row mt-4 bg-border-full">
-                    <div class="col-xl-4 col-12 mb-3">
-                        <item-component title="累計確診(例)" :number="toCurrency(totalConfirmed)" :latest-date="latestDate"></item-component>
+                    <div class="row mt-4 bg-border-full">
+                        <div class="col-xl-4 col-12 mb-3">
+                            <item-component title="累計確診(例)" :number="toCurrency(totalConfirmed)" :latest-date="latestDate"></item-component>
+                        </div>
+                        <div class="col-xl-4 col-12 mb-3">
+                            <item-component title="當日新增確診(例)" :number="toCurrency(todayIncrease)" :latest-date="latestDate"></item-component>
+                        </div>
+                        <div class="col-xl-4 col-12 mb-3">
+                            <item-component title="當日境外移入(例)" :number="toCurrency(todayOverseas)" :latest-date="latestDate"></item-component>
+                        </div>
                     </div>
-                    <div class="col-xl-4 col-12 mb-3">
-                        <item-component title="當日新增確診(例)" :number="toCurrency(todayIncrease)" :latest-date="latestDate"></item-component>
-                    </div>
-                    <div class="col-xl-4 col-12 mb-3">
-                        <item-component title="當日境外移入(例)" :number="toCurrency(todayOverseas)" :latest-date="latestDate"></item-component>
-                    </div>
-                </div>
 
-                <div class="py-5">
-                    <h3 class="fs-3 text-center mt-3 mb-3">每日疫情統計圖 ( 近 {{ chartNum }} 日 )</h3>
-                    <div class="py-5 px-4 border border-4 border-secondary rounded-3 bg-secondary bg-opacity-10 shadow-hover">
-                        <canvas id="dateChart"></canvas>
+                    <div class="py-5">
+                        <h3 class="fs-3 text-center mt-3 mb-3">每日疫情統計圖 ( 近 {{ chartNum }} 日 )</h3>
+                        <div class="py-5 px-4 border border-4 border-secondary rounded-3 bg-secondary bg-opacity-10 shadow-hover">
+                            <canvas id="dateChart"></canvas>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row py-5">
-                    <div class="col-xl-4 col-12 my-4">
-                        <h3 class="fs-5 mb-0 d-inline-block">累計確診排行</h3>
-                        <span class="fs-6 text-muted d-inline-block ms-2">{{ latestDate }}</span>                        
-                        <div class="list-group rounded-3 py-5 px-4 mt-3 bg-secondary bg-opacity-10">
-                            <div v-for="city,index of cityOrderList" 
-                                :key="city.id" 
-                                class="list-group-item d-flex align-items-center border-0 rounded shadow-hover" 
-                                :class="[index===0 ? 'bg-danger' : 
-                                        index===1 ? 'bg-primary' : 
-                                        index===2 ? 'bg-info' : 'bg-secondary',
-                                        index!==0 ? 'mt-3' : '']">
-                                <div class="me-3">
-                                    <div class="icon icon-shape rounded-circle shadow-lg bg-gradient text-white" 
-                                        :class="[index===0 ? 'bg-danger' : 
-                                                index===1 ? 'bg-primary' : 
-                                                index===2 ? 'bg-info' : 'bg-secondary']">
-                                    {{ index+1 }}
+                    <div class="row py-5">
+                        <div class="col-xl-4 col-12 my-4">
+                            <h3 class="fs-5 mb-0 d-inline-block">累計確診排行</h3>
+                            <span class="fs-6 text-muted d-inline-block ms-2">{{ latestDate }}</span>                        
+                            <div class="list-group rounded-3 py-5 px-4 mt-3 bg-secondary bg-opacity-10">
+                                <div v-for="city,index of cityOrderList" 
+                                    :key="city.id" 
+                                    class="list-group-item d-flex align-items-center border-0 rounded shadow-hover" 
+                                    :class="[index===0 ? 'bg-danger' : 
+                                            index===1 ? 'bg-primary' : 
+                                            index===2 ? 'bg-info' : 'bg-secondary',
+                                            index!==0 ? 'mt-3' : '']">
+                                    <div class="me-3">
+                                        <div class="icon icon-shape rounded-circle shadow-lg bg-gradient text-white" 
+                                            :class="[index===0 ? 'bg-danger' : 
+                                                    index===1 ? 'bg-primary' : 
+                                                    index===2 ? 'bg-info' : 'bg-secondary']">
+                                        {{ index+1 }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="flex-fill">
-                                    <div class="card-title fs-6 mb-0 text-white">{{ city.title }}</div>
-                                    <p class="card-text fs-6 text-white opacity-75">確診人數 {{ toCurrency(city.num) }}</p>
+                                    <div class="flex-fill">
+                                        <div class="card-title fs-6 mb-0 text-white">{{ city.title }}</div>
+                                        <p class="card-text fs-6 text-white opacity-75">確診人數 {{ toCurrency(city.num) }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-8 col-12 my-4">
-                        <h3 class="fs-5 mb-0 d-inline-block">台灣縣市疫情地圖</h3>
-                        <span class="fs-6 text-muted d-inline-block ms-2">{{ latestDate }}</span>
-                        <div class="text-center rounded-3 py-5 px-4 mt-3 bg-secondary bg-opacity-10">
-                            <div class="map d-inline-block">
-                                <img src="img/map.png" alt="台灣地圖" class="w-auto mw-100">
-                                <ul class="mapTargetList">
-                                    <li v-for="city,index of cityConfirmedList" 
-                                        :key="city.title" 
-                                        class="text-nowrap fs-6" 
-                                        :class="'mapTarget'+index">
-                                        {{ city.title }}
-                                        <span class="d-block rounded-3 text-white" 
-                                            :class="[city.num>=1000 ? 'bg-danger' : 
-                                                    city.num>=100 ? 'bg-primary' : 'bg-secondary']">
-                                            {{ toCurrency(city.num) }}
-                                        </span>
-                                    </li>
-                                </ul>
+                        <div class="col-xl-8 col-12 my-4">
+                            <h3 class="fs-5 mb-0 d-inline-block">台灣縣市疫情地圖</h3>
+                            <span class="fs-6 text-muted d-inline-block ms-2">{{ latestDate }}</span>
+                            <div class="text-center rounded-3 py-5 px-4 mt-3 bg-secondary bg-opacity-10">
+                                <div class="map d-inline-block">
+                                    <img src="img/map.png" alt="台灣地圖" class="w-auto mw-100">
+                                    <ul class="mapTargetList">
+                                        <li v-for="city,index of cityConfirmedList" 
+                                            :key="city.title" 
+                                            class="text-nowrap fs-6" 
+                                            :class="'mapTarget'+index">
+                                            {{ city.title }}
+                                            <span class="d-block rounded-3 text-white" 
+                                                :class="[city.num>=1000 ? 'bg-danger' : 
+                                                        city.num>=100 ? 'bg-primary' : 'bg-secondary']">
+                                                {{ toCurrency(city.num) }}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
